@@ -44,48 +44,69 @@ if '--wakati' in sys.argv:
 '''
 term_chaine = { 'term1': {'term_next1': freq1, 'term_next2': freq2} }
 '''
-if '--term_chaine' in sys.argv :
+def _term_chaine(arr):
+  index, name, maxsize = arr
+  print('now iter', index, '/', maxsize)
   term_chaine = {}
-  maxsize = len( glob.glob('wakati/*.txt') )
-  for index, name in enumerate(glob.glob('wakati/*.txt')):
-    print('now iter', index, '/', maxsize)
-    #if index > 1:
-    #  continue
-    for line in open(name):
-      line = line.strip()
-      terms = line.split()
-      terms += ['<EOS>']
-      # one term
-      for i in range(len(terms)-1):
-        key = terms[i]
-        next = terms[i+1]
-        if term_chaine.get(key) is None:
-          term_chaine[key] = {}
-        if term_chaine[key].get(next) is None:
-          term_chaine[key][next] = 0
-        term_chaine[key][next] += 1
+  for line in open(name):
+    line = line.strip()
+    terms = line.split()
+    terms += ['<EOS>']
+    # one term
+    for i in range(len(terms)-1):
+      key = terms[i]
+      next = terms[i+1]
+      if term_chaine.get(key) is None:
+        term_chaine[key] = {}
+      if term_chaine[key].get(next) is None:
+        term_chaine[key][next] = 0
+      term_chaine[key][next] += 1
 
-      # two terms
-      for i in range(len(terms)-2):
-        key = ' '.join( terms[i:i+2] )
-        next = terms[i+2]
-        #print('key', key, 'next', next)
-        if term_chaine.get(key) is None:
-          term_chaine[key] = {}
-        if term_chaine[key].get(next) is None:
-          term_chaine[key][next] = 0
-        term_chaine[key][next] += 1
-      
-      # three terms
-      for i in range(len(terms)-3):
-        key = ' '.join( terms[i:i+3] )
-        next = terms[i+3]
-        #print('key', key, 'next', next)
-        if term_chaine.get(key) is None:
-          term_chaine[key] = {}
-        if term_chaine[key].get(next) is None:
-          term_chaine[key][next] = 0
-        term_chaine[key][next] += 1
+    # two terms
+    for i in range(len(terms)-2):
+      key = ' '.join( terms[i:i+2] )
+      next = terms[i+2]
+      #print('key', key, 'next', next)
+      if term_chaine.get(key) is None:
+        term_chaine[key] = {}
+      if term_chaine[key].get(next) is None:
+        term_chaine[key][next] = 0
+      term_chaine[key][next] += 1
+    
+    # three terms
+    for i in range(len(terms)-3):
+      key = ' '.join( terms[i:i+3] )
+      next = terms[i+3]
+      #print('key', key, 'next', next)
+      if term_chaine.get(key) is None:
+        term_chaine[key] = {}
+      if term_chaine[key].get(next) is None:
+        term_chaine[key][next] = 0
+      term_chaine[key][next] += 1
+    
+  return term_chaine
+if '--term_chaine' in sys.argv :
+  maxsize = len( glob.glob('wakati/*.txt') )
+  arrs = [(index,name,maxsize) for index, name in enumerate(glob.glob('wakati/*.txt'))]
+
+  term_chaine = {}
+  print('run as concurrent')
+  #with concurrent.futures.ProcessPoolExecutor(max_workers=2) as exe:
+  #  for res_term_chaine in exe.map(_term_chaine, arrs):
+  for index, arr in enumerate(arrs):
+    res_term_chaine = _term_chaine(arr)
+    print('finish', index)
+    if index > 100:
+      break
+    for term, chaine in res_term_chaine.items():
+      if term_chaine.get(term) is None:
+        term_chaine[term] = {}
+
+      for _term, freq in chaine.items():
+        if term_chaine[term].get(_term) is None:
+          term_chaine[term][_term] = 0
+        term_chaine[term][_term] += freq
+  print('writing to db')
       
   dbs = []
   for i in range(16):
@@ -103,11 +124,9 @@ make nump array
 '''
 def _make_base(arr):
   index = arr
+  print('in minibatch')
   db_src = plyvel.DB('term_chaine/term_base_{index:09d}.ldb'.format(index=index), create_if_missing=True)
   db = plyvel.DB('leveldb/term_base_{index:09d}.ldb'.format(index=index), create_if_missing=True)
-  #term_index = json.loads( open('term_index.json').read() )
-  print('in minibatch')
-  #term_chaine = json.loads( open('term_chaine.json').read() )
   print('load in minibatch, finished')
   for term, chaine in db_src:
     term = term.decode('utf8')
