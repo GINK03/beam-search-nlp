@@ -29,6 +29,13 @@
 </div>
 <div align="center"> 式1. ただしこの変化系でnはn-3,n-2,n-1からのみ決定されるとしています </div>
 
+お気持的な図ですが、過去の特定の発生した単語で、このように可能性の樹形図を作成します（ビタビアルゴリズムっぽいというかそのものか）
+
+<div align="center">
+  <img width="600px" src="https://user-images.githubusercontent.com/4949982/32142183-40795980-bcd5-11e7-980f-b2cc5998afbd.png">
+</div>
+<div align="center"> 図3. iPadで書いた気持ち </div>
+
 
 ## Requirements(必要用件)
 - Python3
