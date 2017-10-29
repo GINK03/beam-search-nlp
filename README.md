@@ -15,10 +15,11 @@
 <div align="center">
   <img widht="450px" src="https://user-images.githubusercontent.com/4949982/32141944-d93d1414-bccf-11e7-85ba-5c7784eb4f9d.png">
 </div>
+<div align="center"> 図1. Radeon </div>
 <div align="center">
   <img widht="450px" src="https://user-images.githubusercontent.com/4949982/32141945-e2bde536-bccf-11e7-9524-fce7343473a1.png">
 </div>
-
+<div align="center"> 図2. メガワット </div>
 
 ## Requirements(必要用件)
 - Python3
