@@ -25,7 +25,7 @@
 
 数式は、このようになります
 <div align="center">
-  <img width="100%" src="https://user-images.githubusercontent.com/4949982/32142009-d260634c-bcd1-11e7-9a11-a5a6b76bc1e8.png">
+  <img width="600px" src="https://user-images.githubusercontent.com/4949982/32142089-8dac2bf8-bcd3-11e7-9944-79e61e5fb108.png">
 </div>
 <div align="center"> 式1. ただしこの変化系でnはn-3,n-2,n-1からのみ決定されるとしています </div>
 
