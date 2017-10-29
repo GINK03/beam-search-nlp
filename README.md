@@ -34,7 +34,7 @@
 - コーパス(600万テキストほど)
 
 今回使用したデータセットだけなら、[minioというサーバで公開](http://121.2.69.245:10001/minio/markov-chaine-data/)します  
-また、学習済みモデルはlevel.zipです
+また、[学習済みモデルはlevel.zip](http://121.2.69.245:10001/minio/markov-chaine-data/)です
 
 
 ## 学習
