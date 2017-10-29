@@ -11,6 +11,15 @@
 
 3. 1に戻ります
 
+例えば、「Radeon」や「メガワット」という単語が現れると、次に繋がる単語の確率はこのようになります(表示されていない他の可能性は全て0)  
+<div align="center">
+  <img widht="450px" src="https://user-images.githubusercontent.com/4949982/32141944-d93d1414-bccf-11e7-85ba-5c7784eb4f9d.png">
+</div>
+<div align="center">
+  <img widht="450px" src="https://user-images.githubusercontent.com/4949982/32141945-e2bde536-bccf-11e7-9524-fce7343473a1.png">
+</div>
+
+
 ## Requirements(必要用件)
 - Python3
 - nvme(高速なディスクでないとKVSがパフォーマンスを発揮できませんが、実行だけなら必要ないかも)
@@ -22,6 +31,8 @@
 - コーパス(600万テキストほど)
 
 今回使用したデータセットだけなら、[minioというサーバで公開](http://121.2.69.245:10001/minio/markov-chaine-data/)します  
+また、学習済みモデルはlevel.zipです
+
 
 ## 学習
 
