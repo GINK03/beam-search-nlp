@@ -1,4 +1,4 @@
-# Generic-N-Gram Markov Chaine
+# Generic N-Gram Markov Chaine
 
 ## Markov Chaineを実装する
 
