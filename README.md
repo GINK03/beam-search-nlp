@@ -23,6 +23,13 @@
 
 これが、２語、３語と繋がっていくと、確率の分散は小さくなり、どんどん角度の良い決定が行われるようになります。  
 
+数式は、このようになります
+<div align="center">
+  <img width="100%" src="https://user-images.githubusercontent.com/4949982/32142009-d260634c-bcd1-11e7-9a11-a5a6b76bc1e8.png">
+</div>
+<div align="center"> 式1. ただしこの変化系でnはn-3,n-2,n-1からのみ決定されるとしています </div>
+
+
 ## Requirements(必要用件)
 - Python3
 - nvme(高速なディスクでないとKVSがパフォーマンスを発揮できませんが、実行だけなら必要ないかも)
