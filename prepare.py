@@ -1,46 +1,38 @@
 import glob
 import MeCab
 import sys
-import plyvel
 import multiprocessing
 import re
 import json
 import numpy as np
-import plyvel
+#import plyvel
 import pickle
-import concurrent.futures
 import time
 import random
 from gzip import compress
 from gzip import decompress
-def _flash(batch):
-  m = MeCab.Tagger('-Owakati')
-  cur = multiprocessing.current_process()
-  id = re.search(r'\d{1,}', str(cur)).group(0)
-  print(cur, id)
+import gzip
+from concurrent.futures import ThreadPoolExecutor as PPE
 
-  res = ''
-  for text in batch:
-    res += m.parse(text)
-  open('wakati/{:09}.txt'.format(int(id)), 'w').write( res + '\n') 
-
+def p_flash(arg):
+  index, fn = arg
+  try:
+    print(fn)
+    m = MeCab.Tagger('-Owakati')
+    cur = multiprocessing.current_process()
+    fout = open(f'tmp/tokenized_{index:09}.txt', 'w')
+    for line in gzip.open(fn, 'rt'):
+      obj = json.loads(line.strip())
+      post = obj['post']
+      res = m.parse(post).strip()
+      fout.write(res + '\n')
+  except Exception as ex:
+    print(ex)
 if '--wakati' in sys.argv:
-  batch = []
-  ps = []
-  for name in glob.glob('../output/*/*'):
-    for line in open(name):
-      line = line.strip()
-      if line == '': continue
-      batch.append( line ) 
-      if len(batch) > 10000:
-        p = multiprocessing.Process(target=_flash, args=(batch,))
-        try:
-          p.start()
-        except OSError as e:
-          time.sleep(5.0)
-        ps.append(p)
-        batch = []
-  [p.join() for p in ps]
+  args = [(index,fn) for index,fn in enumerate(glob.glob('../../posts/*.gz'))]
+  #p_flash(args[0])
+  with PPE(max_workers=16) as exe:
+    exe.map(p_flash, args)
 '''
 term_chaine = { 'term1': {'term_next1': freq1, 'term_next2': freq2} }
 '''
