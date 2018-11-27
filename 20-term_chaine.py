@@ -16,14 +16,13 @@ def _term_chaine(arr):
         print('now iter at', aindex, 'of', index)
       line = line.strip()
       terms = line.split()
-      terms += ['<EOS>']
+      terms += ['<EOS>', '<EOS>']
       for i in range(len(terms)-1):
         key = bytes(terms[i], 'utf8')
         next = bytes(terms[i+1], 'utf8')
         if db.get(key) is None:
           db.put(key, b'0' )
         db.put(key, bytes(str(int(db.get(key).decode())+1),'utf8') )
-      
       # two terms
       for i in range(len(terms)-2):
         key = bytes(' '.join( terms[i:i+2] ), 'utf8')
