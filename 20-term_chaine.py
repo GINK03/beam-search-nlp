@@ -3,15 +3,17 @@ import sys
 from concurrent.futures import ProcessPoolExecutor as PPE
 import glob
 import plyvel
+import gzip
+
 def _term_chaine(arr):
   index, fn = arr
   try:
     print('now iter', index)
     db = plyvel.DB(f'tmp/level_min_batch_{index:04d}/', create_if_missing=True)
-    fp = open(fn) 
+    fp = gzip.open(fn,'rt') 
     for aindex, line in enumerate(fp):
-      #if aindex > 1000:
-      #  break
+      if aindex%1000 == 0:
+        print('now iter at', aindex, 'of', index)
       line = line.strip()
       terms = line.split()
       terms += ['<EOS>']
@@ -39,8 +41,8 @@ def _term_chaine(arr):
   except Exception as ex:
     print(ex)
 
-arrs = [(index,fn) for index, fn in enumerate(glob.glob('tmp/tokenized_*.txt'))]
+arrs = [(index,fn) for index, fn in enumerate(glob.glob('tmp/tokenized_*.txt.gz'))]
 #_term_chaine(arrs[0])
 print('run as concurrent')
-with PPE(max_workers=4) as exe:
+with PPE(max_workers=64) as exe:
   exe.map(_term_chaine, arrs)

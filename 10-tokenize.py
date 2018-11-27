@@ -19,7 +19,7 @@ def p_flash(arg):
     print(fn)
     m = MeCab.Tagger('-Owakati')
     cur = multiprocessing.current_process()
-    fout = open(f'tmp/tokenized_{index:09}.txt', 'w')
+    fout = gzip.open(f'tmp/tokenized_{index:09}.txt.gz', 'wt')
     for line in gzip.open(fn, 'rt'):
       obj = json.loads(line.strip())
       post = obj['post']
