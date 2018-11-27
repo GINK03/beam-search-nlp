@@ -29,7 +29,7 @@ def _term_chaine(arr):
 			# three terms
 			for i in range(len(terms)-3):
 				key = bytes(' '.join( terms[i:i+3] ), 'utf8')
-				next = bytes(terms[i+2], 'utf8')
+				next = bytes(terms[i+3], 'utf8')
 				if db.get(key) is None:
 					db.put(key, b'0' )
 				db.put(key, bytes(str(int(db.get(key).decode())+1),'utf8') )
