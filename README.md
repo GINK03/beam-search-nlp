@@ -2,31 +2,10 @@
 
 ## Beam Search
 
+条件付き確率場とも考えられる単語の連なりから、ネットワークの探索範囲を限定することでそれなりの良い答えを得る方法。  
 
-例えば、「Radeon」や「メガワット」という単語が現れると、次に繋がる単語の確率はこのようになります(表示されていない他の可能性は全て0)  
-<div align="center">
-  <img widht="450px" src="https://user-images.githubusercontent.com/4949982/32141944-d93d1414-bccf-11e7-85ba-5c7784eb4f9d.png">
-</div>
-<div align="center"> 図1. Radeon </div>
-<div align="center">
-  <img widht="450px" src="https://user-images.githubusercontent.com/4949982/32141945-e2bde536-bccf-11e7-9524-fce7343473a1.png">
-</div>
-<div align="center"> 図2. メガワット </div>
+難しいのは、単語同士の関連する確率の表現で、できるだけながい語を見るほうが望ましいというネットワークの結合の重要度を与える必要がある。  
 
-これが、２語、３語と繋がっていくと、確率の分散は小さくなり、どんどん角度の良い決定が行われるようになります。  
-
-数式は、このようになります
-<div align="center">
-  <img width="600px" src="https://user-images.githubusercontent.com/4949982/32142089-8dac2bf8-bcd3-11e7-9944-79e61e5fb108.png">
-</div>
-<div align="center"> 式1. ただしこの変化系でnはn-3,n-2,n-1からのみ決定されるとしています </div>
-
-お気持的な図ですが、過去の特定の発生した単語で、このように可能性の樹形図を作成します（ビタビアルゴリズムっぽいというかそのものか）
-
-<div align="center">
-  <img width="600px" src="https://user-images.githubusercontent.com/4949982/32142183-40795980-bcd5-11e7-980f-b2cc5998afbd.png">
-</div>
-<div align="center"> 図3. iPadで書いた気持ち </div>
 
 
 ## Requirements(必要用件)
